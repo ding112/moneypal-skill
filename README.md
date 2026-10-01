@@ -1,8 +1,27 @@
-# MoneyPal Skill 使用指南
+# MoneyPal Skill
 
-MoneyPal 帮助你通过自然语言查询和维护本地 Beancount 复式记账账本：查看余额、流水、收支报表，整理交易并在你确认后记账，以及维护账户。
+**让你的 AI 助手真正会记账。**
 
-本仓库交付完整的 `moneypal` Skill，包括使用规则、参考资料和安装辅助脚本。执行查询和记账需要本机的 `mcp-moneypal` 程序；安装 Skill 后，助手可以引导你准备程序、运行时和账本。
+支付宝、微信和各大银行账单自动导入，告别逐笔录入。把导出的账单文件交给 AI，自动整理交易，预览确认后记入账本；再用自然语言查余额、查流水、看收支报表。
+
+基于 Beancount，本地优先，账本以标准文本保存在自己的电脑上。
+
+**[MoneyPal 产品主页](https://github.com/ding112/MoneyPal)** · [账单导入文字示例](https://github.com/ding112/MoneyPal#账单导入示例)
+
+本仓库是 MoneyPal 的通用 Skill 分发入口，交付完整的 `moneypal` 技能目录，包括使用规则、参考资料和安装辅助脚本。执行查询和记账需要本机的 `mcp-moneypal` 程序；安装 Skill 后，助手可以引导你准备程序、运行时和账本。
+
+## 选择你的安装方式
+
+| 使用环境 | 安装入口 |
+| --- | --- |
+| DeepSeek Harness Web | [安装 DSH 插件 `dsh-moneypal`](https://github.com/ding112/MoneyPal#install-dsh) |
+| WorkBuddy | [导入 MoneyPal Skill](#install-skill) · [WorkBuddy 连接器指引](skills/moneypal/references/connectors.md#workbuddy) |
+| Qoder / QoderWork | [导入 MoneyPal Skill](#install-skill) · [Qoder 办公版](skills/moneypal/references/connectors.md#qoder-办公版) / [QoderWork 连接器指引](skills/moneypal/references/connectors.md#qoderwork-界面) |
+| 其他本地 MCP Agent | [npm 包 `mcp-moneypal`](https://www.npmjs.com/package/mcp-moneypal) · [环境要求](#first-use) · [MCP 配置](#connect-mcp) |
+
+DSH 使用原生确认框确认写入；本 Skill 在对话中展示预览，收到你的明确确认后再提交。
+
+<a id="install-skill"></a>
 
 ## 1. 安装 Skill
 
@@ -28,6 +47,8 @@ moneypal/
 
 安装后，检查应用是否能识别 `moneypal` 技能。若需要刷新技能列表或新建任务，完成后再使用。安装 Skill 不等于 MCP 连接已经完成。
 
+<a id="first-use"></a>
+
 ## 2. 首次使用：让助手带你完成准备
 
 先选择准备保存账本的目录，在应用中将该目录设为当前任务的根工作区，再发送：
@@ -45,7 +66,25 @@ moneypal/
 
 如果助手已经能调用 MoneyPal 工具，可以直接检查账本；否则由助手检查可用方式并引导完成准备。
 
-## 3. 可选：连接 MCP
+## 3. 账单自动导入
+
+完成首次准备后，可以导入支付宝、微信和各大银行的账单：
+
+1. 从支付宝、微信或银行导出账单文件。
+2. 将文件提供给助手，或告知助手可读取的文件位置。
+3. 发送以下导入请求，让助手读取文件并整理候选交易。
+4. 核对完整交易明细、账户、收支汇总、写入文件、预览有效期和疑似重复提醒；需要调整时先修改预览。
+5. 确认无误后，在对话中回复“确认记账”；助手提交后查询流水复核，报告实际写入结果。
+
+> 请导入这份账单，先整理交易并展示记账预览，提示可能重复的记录，等我确认后再写入。
+
+提供账单文件后，助手会先展示预览，此时尚未写入账本。疑似重复记录会提示，由你决定保留或丢弃。预览过期、账本变化或交易修改后，重新预览并确认。
+
+账本文件保存在本地，但账单内容、查询结果和交易信息可能进入宿主配置的模型上下文。
+
+<a id="connect-mcp"></a>
+
+## 4. 可选：连接 MCP
 
 本 Skill 是独立技能，MCP 连接需要在应用的连接器管理界面配置。已有 MoneyPal 条目时，检查并启用原条目，避免重复添加。
 
@@ -74,12 +113,13 @@ moneypal/
 
 WorkBuddy、Qoder 办公版和 QoderWork 的接入说明见[连接器指引](skills/moneypal/references/connectors.md)。界面名称可能随版本变化，请以实际应用界面为准。
 
-## 4. 日常怎么用
+## 5. 日常怎么用
 
 完成准备后，直接向助手描述需求，无需每次重复安装或首次引导。
 
 | 需求 | 示例说法 |
 | --- | --- |
+| 导入账单 | “请导入这份账单，先展示预览，等我确认后再写入。” |
 | 查看账户 | “列出账本中的可用账户。” |
 | 查询余额 | “现金账户现在的账面余额是多少？” |
 | 查询流水 | “列出 2026 年 9 月的餐饮支出。” |
@@ -105,7 +145,7 @@ WorkBuddy、Qoder 办公版和 QoderWork 的接入说明见[连接器指引](ski
 
 若提交没有返回明确结果，先让助手查询批次状态和账本流水，确认是否已写入，再决定下一步，避免重复记账。
 
-## 5. 常见问题
+## 6. 常见问题
 
 | 问题 | 处理方法 |
 | --- | --- |
@@ -122,7 +162,7 @@ WorkBuddy、Qoder 办公版和 QoderWork 的接入说明见[连接器指引](ski
 
 遇到环境或连接问题时，可向助手说明具体错误，让它按[启动检查](skills/moneypal/references/bootstrap.md)引导恢复。
 
-## 6. 更新、卸载与数据位置
+## 7. 更新、卸载与数据位置
 
 更新 Skill 时，完整替换已安装的 `moneypal` 目录，包括参考资料和辅助脚本，再按应用要求重新加载。
 
@@ -147,4 +187,4 @@ mcp-moneypal runtime-status
 npm uninstall -g mcp-moneypal
 ```
 
-正式账本保存在你选择的账本工作区，卸载程序不会自动删除账本或共享运行时。账本文件留在本机，但查询结果和交易内容可能进入应用使用的模型上下文。MoneyPal 不会自动执行账本的 Git 暂存或提交；请自行安排账本备份。
+正式账本保存在你选择的账本工作区，卸载程序不会自动删除账本或共享运行时。账本文件保存在本地，但账单内容、查询结果和交易信息可能进入宿主配置的模型上下文。MoneyPal 不会自动执行账本的 Git 暂存或提交；请自行安排账本备份。
