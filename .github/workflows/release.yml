@@ -1,0 +1,47 @@
+name: 发布 Skill ZIP
+
+on:
+  push:
+    tags: ["**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: 检出 tag 对应源码
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: 打包完整 Skill 目录
+        shell: bash
+        run: |
+          set -euo pipefail
+          git archive --format=zip --output="$RUNNER_TEMP/moneypal.zip" HEAD:skills moneypal
+          unzip -t "$RUNNER_TEMP/moneypal.zip"
+
+      - name: 上传到 GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "$RUNNER_TEMP/moneypal.zip" --clobber
+          else
+            gh release create "$RELEASE_TAG" "$RUNNER_TEMP/moneypal.zip" \
+              --verify-tag --title "$RELEASE_TAG" --generate-notes
+          fi

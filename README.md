@@ -25,7 +25,7 @@ DSH 使用原生确认框确认写入；本 Skill 在对话中展示预览，收
 
 ## 1. 安装 Skill
 
-获取本仓库后，找到 `skills/moneypal/`。将整个 `moneypal` 目录导入应用的技能管理界面，或复制到应用官方规定的 Skill 目录。
+从 [GitHub Releases](https://github.com/ding112/moneypal-skill/releases) 下载对应版本的 `moneypal.zip`，解压后得到完整的 `moneypal/` 目录；也可以获取本仓库，使用 `skills/moneypal/`。将整个 `moneypal` 目录导入应用的技能管理界面，或复制到应用官方规定的 Skill 目录。
 
 需要保留以下完整结构，不能只复制 `SKILL.md`：
 
@@ -188,3 +188,19 @@ npm uninstall -g mcp-moneypal
 ```
 
 正式账本保存在你选择的账本工作区，卸载程序不会自动删除账本或共享运行时。账本文件保存在本地，但账单内容、查询结果和交易信息可能进入宿主配置的模型上下文。MoneyPal 不会自动执行账本的 Git 暂存或提交；请自行安排账本备份。
+
+
+## 8. 发布 Skill ZIP
+
+将 tag 推送到 GitHub 仓库后，GitHub Actions 会自动打包该 tag 对应提交中的 `skills/moneypal/`，生成 `moneypal.zip` 并上传到同名 GitHub Release。所有 tag 都会触发，普通分支推送不会触发。
+
+先提交需要发布的内容（包括 `.github/workflows/release.yml`），再创建并推送 tag。例如发布 `v1.0.0`：
+
+```bash
+git tag v1.0.0
+git push github v1.0.0
+```
+
+这里的 `github` 是本仓库指向 GitHub 的 remote；仅推送到私有 `origin` 不会触发 GitHub Actions。若使用其他 remote 名称，请替换为指向 GitHub 的名称。
+
+ZIP 顶层为 `moneypal/`，包含完整的 `SKILL.md`、`references/` 和 `scripts/`，只打包 tag 对应提交中已跟踪的 Skill 文件。工作流使用 GitHub 自动提供的 `GITHUB_TOKEN`，无需额外配置发布密钥。同一 tag 重跑工作流时，会更新已有 Release 中的同名 ZIP 附件。
