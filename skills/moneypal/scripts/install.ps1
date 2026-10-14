@@ -15,7 +15,7 @@ $ErrorActionPreference = "Stop"
 
 $node = Get-Command node -ErrorAction SilentlyContinue
 if ($null -eq $node) {
-  [Console]::Error.WriteLine("需要 Node.js 22.18+；请先安装 Node 后重新运行本脚本。")
+  [Console]::Error.WriteLine("需要 Node.js 22.9.0+；请先安装 Node 后重新运行本脚本。")
   exit 1
 }
 

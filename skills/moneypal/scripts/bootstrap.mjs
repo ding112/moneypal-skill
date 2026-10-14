@@ -9,7 +9,7 @@ import { accessSync, constants, existsSync, renameSync, rmSync, writeFileSync } 
 import { basename, delimiter, dirname, isAbsolute, join } from "node:path";
 
 const SUPPORTED_HOSTS = ["workbuddy", "qoder", "qoderwork"];
-const REQUIRED_NODE = { major: 22, minor: 18 };
+const REQUIRED_NODE = { major: 22, minor: 9 };
 const PACKAGE_NAME = "mcp-moneypal";
 const COMMAND_NAME = "mcp-moneypal";
 const NPM_MIRROR = "https://registry.npmmirror.com";
@@ -38,7 +38,7 @@ async function main() {
   const nodeVersion = process.versions.node;
   report.node = { available: true, version: nodeVersion, compatible: nodeAtLeast(nodeVersion) };
   if (!report.node.compatible) {
-    fail(report, "node", "node_incompatible", `需要 Node.js ${REQUIRED_NODE.major}.${REQUIRED_NODE.minor}+，当前为 ${nodeVersion}。`);
+    fail(report, "node", "node_incompatible", `需要 Node.js ${REQUIRED_NODE.major}.${REQUIRED_NODE.minor}.0+，当前为 ${nodeVersion}。`);
     emitReport(report, options.report, 1);
     return;
   }
@@ -214,7 +214,7 @@ function nextActionFor(stage) {
     case "arguments":
       return "按 install.sh --host workbuddy / install.ps1 -Host workbuddy 重新运行。";
     case "node":
-      return "先安装 Node.js 22.18+，再重新运行引导脚本；引导程序不会自行安装 Node。";
+      return "先安装 Node.js 22.9.0+，再重新运行引导脚本；引导程序不会自行安装 Node。";
     case "npm":
       return "先修复 npm（Node.js 自带 npm，或使用 Node 版本管理器），再重新运行引导脚本。";
     default:

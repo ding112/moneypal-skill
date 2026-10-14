@@ -3,7 +3,7 @@ name: moneypal
 description: 通过 MoneyPal MCP 财务工具查询、校验和记账用户的正式账本；经用户确认后创建、修改或删除账户；在首次使用或要求入门教学时，逐步引导准备环境、连接账本、首次查询与真实交易记账；在工具不可用时协助恢复连接和运行时。记账遵循先预览、用户确认、再提交。
 metadata:
   author: mengzai
-  version: "${MONEYPAL_VERSION}"
+  version: "1.0.7"
 ---
 
 # MoneyPal 记账助手
