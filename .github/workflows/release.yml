@@ -24,6 +24,18 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
 
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.9.0
+
+      - name: 测试 Skill 发布校验
+        run: node --test test/*.test.mjs
+
+      - name: 校验 Skill 版本与发布 tag
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: node scripts/check-release.mjs --skill-dir "$GITHUB_WORKSPACE/skills/moneypal" --tag "$RELEASE_TAG"
+
       - name: 打包完整 Skill 目录
         shell: bash
         run: |
