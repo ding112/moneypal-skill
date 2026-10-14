@@ -1,5 +1,7 @@
 # MoneyPal Skill
 
+[![skills.sh](https://skills.sh/b/ding112/moneypal-skill)](https://skills.sh/ding112/moneypal-skill)
+
 **让你的 AI 助手真正会记账。**
 
 支付宝、微信和各大银行账单自动导入，告别逐笔录入。把导出的账单文件交给 AI，自动整理交易，预览确认后记入账本；再用自然语言查余额、查流水、看收支报表。
@@ -17,6 +19,7 @@
 | DeepSeek Harness Web | [安装 DSH 插件 `dsh-moneypal`](https://github.com/ding112/MoneyPal#install-dsh) |
 | WorkBuddy | [一键安装或扫码安装「恰恰账本」](#install-skill) · [导入 Skill 包](#install-skill-import) · [WorkBuddy 连接器指引](skills/moneypal/references/connectors.md#workbuddy) |
 | Qoder / QoderWork | [导入 Skill 包](#install-skill-import) · [Qoder 办公版](skills/moneypal/references/connectors.md#qoder-办公版) / [QoderWork 连接器指引](skills/moneypal/references/connectors.md#qoderwork-界面) |
+| 支持 Skills CLI 的应用（Claude Code、Codex、Cursor 等） | [Skills CLI 安装](#install-skill-cli) · [skills.sh 页面](https://skills.sh/ding112/moneypal-skill) |
 | 其他本地 MCP Agent | [npm 包 `mcp-moneypal`](https://www.npmjs.com/package/mcp-moneypal) · [环境要求](#first-use) · [MCP 配置](#connect-mcp) |
 
 DSH 使用原生确认框确认写入；本 Skill 在对话中展示预览，收到你的明确确认后再提交。
@@ -40,6 +43,31 @@ WorkBuddy 5.8.0 及以上版本可以从分享链接直接安装已上架的 Mon
 扫码用于在微信中查看技能详情；在电脑上安装仍建议直接用上面的分享页入口。WorkBuddy 版本低于 5.8.0 时分享页会提示升级，先更新应用再安装。
 
 这种方式安装的是已发布版本，不需要下载 ZIP，也不需要手工放置目录。安装后按[第 2 步](#first-use)让助手引导准备程序和账本。
+
+<a id="install-skill-cli"></a>
+
+### Skills CLI：多应用通用安装
+
+本仓库按 Skills CLI 的目录约定提供技能（技能位于 `skills/moneypal/`），支持 [skills.sh](https://skills.sh) 生态的 Agent 应用（Claude Code、Codex、Cursor、OpenCode 等）可以直接从仓库安装：
+
+```bash
+npx skills add ding112/moneypal-skill
+```
+
+CLI 会读取仓库中的技能列表，按提示选择要安装的应用并确认。需要本机已安装 Node.js 和 npm，`npx` 随 npm 提供。本仓库只包含一个技能 `moneypal`，也可以先查看再安装，或用 `-y` 跳过确认：
+
+```bash
+npx skills add ding112/moneypal-skill --list
+npx skills add ding112/moneypal-skill -y
+```
+
+常用参数：`-g` 安装到用户级目录而不是当前项目，`-a claude-code` 指定目标应用，`--copy` 复制文件而不是创建符号链接。安装完成后，按应用要求刷新技能列表或新建任务，再按[第 2 步](#first-use)让助手引导准备程序和账本。
+
+后续更新执行：
+
+```bash
+npx skills update moneypal
+```
 
 <a id="install-skill-import"></a>
 
@@ -185,7 +213,7 @@ WorkBuddy、Qoder 办公版和 QoderWork 的接入说明见[连接器指引](ski
 
 ## 7. 更新、卸载与数据位置
 
-更新 Skill 时，完整替换已安装的 `moneypal` 目录，包括参考资料和辅助脚本，再按应用要求重新加载。WorkBuddy 不需要手工替换目录：重新打开[技能分享页](#install-skill)安装当前发布版本即可。
+更新 Skill 时，完整替换已安装的 `moneypal` 目录，包括参考资料和辅助脚本，再按应用要求重新加载。WorkBuddy 不需要手工替换目录：重新打开[技能分享页](#install-skill)安装当前发布版本即可。用 Skills CLI 安装的，执行 `npx skills update moneypal` 更新，也可以重新运行 `npx skills add ding112/moneypal-skill` 覆盖安装。
 
 更新本机程序：
 
