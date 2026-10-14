@@ -8,14 +8,14 @@
 
 **[MoneyPal 产品主页](https://github.com/ding112/MoneyPal)** · [账单导入文字示例](https://github.com/ding112/MoneyPal#账单导入示例)
 
-本仓库是 MoneyPal 的通用 Skill 分发入口，交付完整的 `moneypal` 技能目录，包括使用规则、参考资料和安装辅助脚本；WorkBuddy 已上架该技能，可在应用内直接安装。执行查询和记账需要本机的 `mcp-moneypal` 程序；安装 Skill 后，助手可以引导你准备程序、运行时和账本。
+本仓库是 MoneyPal 的通用 Skill 分发入口，交付完整的 `moneypal` 技能目录，包括使用规则、参考资料和安装辅助脚本；WorkBuddy 已上架该技能，可在应用内直接安装，也能用微信扫码安装。执行查询和记账需要本机的 `mcp-moneypal` 程序；安装 Skill 后，助手可以引导你准备程序、运行时和账本。
 
 ## 选择你的安装方式
 
 | 使用环境 | 安装入口 |
 | --- | --- |
 | DeepSeek Harness Web | [安装 DSH 插件 `dsh-moneypal`](https://github.com/ding112/MoneyPal#install-dsh) |
-| WorkBuddy | [一键安装「恰恰账本」](#install-skill) · [导入 Skill 包](#install-skill-import) · [WorkBuddy 连接器指引](skills/moneypal/references/connectors.md#workbuddy) |
+| WorkBuddy | [一键安装或扫码安装「恰恰账本」](#install-skill) · [导入 Skill 包](#install-skill-import) · [WorkBuddy 连接器指引](skills/moneypal/references/connectors.md#workbuddy) |
 | Qoder / QoderWork | [导入 Skill 包](#install-skill-import) · [Qoder 办公版](skills/moneypal/references/connectors.md#qoder-办公版) / [QoderWork 连接器指引](skills/moneypal/references/connectors.md#qoderwork-界面) |
 | 其他本地 MCP Agent | [npm 包 `mcp-moneypal`](https://www.npmjs.com/package/mcp-moneypal) · [环境要求](#first-use) · [MCP 配置](#connect-mcp) |
 
@@ -25,7 +25,7 @@ DSH 使用原生确认框确认写入；本 Skill 在对话中展示预览，收
 
 ## 1. 安装 Skill
 
-### WorkBuddy：在应用内直接安装
+### WorkBuddy：一键安装或扫码安装
 
 WorkBuddy 5.8.0 及以上版本可以从分享链接直接安装已上架的 MoneyPal 技能，市场名称为「恰恰账本」：
 
@@ -33,7 +33,11 @@ WorkBuddy 5.8.0 及以上版本可以从分享链接直接安装已上架的 Mon
 2. 点击页面底部的「在WorkBuddy打开」，WorkBuddy 会跳到该技能的详情页。
 3. 在详情页点击「安装」，完成后技能出现在「技能 → 已安装」列表中。
 
-也可以在 WorkBuddy 的「技能」面板中搜索「恰恰账本」安装。分享页暂不支持手机端安装，请在电脑上操作；WorkBuddy 版本低于 5.8.0 时分享页会提示升级，先更新应用再安装。
+也可以在 WorkBuddy 的「技能」面板中搜索「恰恰账本」安装，或用微信扫描下面的二维码，在小程序中打开该技能的详情页：
+
+<img src="assets/workbuddy-qr.png" alt="恰恰账本技能二维码：微信扫码查看详情" width="326">
+
+扫码用于在微信中查看技能详情；在电脑上安装仍建议直接用上面的分享页入口。WorkBuddy 版本低于 5.8.0 时分享页会提示升级，先更新应用再安装。
 
 这种方式安装的是已发布版本，不需要下载 ZIP，也不需要手工放置目录。安装后按[第 2 步](#first-use)让助手引导准备程序和账本。
 
